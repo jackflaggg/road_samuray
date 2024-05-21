@@ -1,26 +1,21 @@
 'use strict';
 
 const http = require('http');
-const fs = require('fs');
 
-const server = http.createServer((req, res) => {
+const server =  http.createServer((req, res) => {
 	switch (req.url) {
 		case '/students':
-			const data= 'best';
-			const start = new Date();
-
-			while (new Date() - start <= 5000) {
-				console.log(new Date() - start)
-			}
-			res.write('STUDENTS ');
-			break;
-		case '/courses':
-			res.write('COURSES ')
+			setTimeout(() => {
+				const data = 'STUDENTS '
+				res.write(data);
+				res.end();
+			}, 3000);
 			break;
 		default:
 			res.write('ERROR ');
+			res.end();
 	}
-	res.end();
+
 })
 
 server.listen(3004);
