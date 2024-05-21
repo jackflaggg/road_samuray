@@ -1,10 +1,14 @@
 'use strict';
 
 const http = require('http');
-const port = process.env.PORT || 3000;
+const port = 3003;
+let counter = 0;
 
 const server = http.createServer((req, res) => {
-	res.write('it kamasutra')
+	if (req.url !== 'favicon.ico'){
+		counter++;
+		res.write('it kamasutra: ' + counter)
+	}
 	res.end();
 })
 server.listen(port);
