@@ -1,8 +1,8 @@
 'use strict';
 
-let counter = 0;
-// console.log(counter);
+const http = require('http');
 
-setInterval(() => {
-	console.log(counter++)
-}, 1000)
+const server = http.createServer((req, res) => {
+
+})
+server.listen(3003);
