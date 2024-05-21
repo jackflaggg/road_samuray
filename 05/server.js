@@ -7,11 +7,8 @@ let counter = 0;
 const server = http.createServer((req, res) => {
 	if (req.url !== 'favicon.ico'){
 		counter++;
-		console.log(req.url);
-
 		switch (req.url) {
 			case '/students':
-				console.log(req.url === '/students');
 				res.write('STUDENTS ');
 				break;
 			case '/courses':
