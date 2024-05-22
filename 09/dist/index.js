@@ -43,7 +43,6 @@ app.post('/addresses', (req, res) => {
         errorsMessages: []
     };
     let { value, id } = req.body;
-    console.log(value, id);
     if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
         errors.errorsMessages.push({ message: `Incorrect value, length = ${value.length.toString()}`, field: `value` });
     }
@@ -68,7 +67,6 @@ app.post('/products', (req, res) => {
         errorsMessages: []
     };
     let { title, id } = req.body;
-    console.log(title, id);
     if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
         errors.errorsMessages.push({ message: `Incorrect value, length = ${title.length.toString()}`, field: `value` });
     }
@@ -82,11 +80,82 @@ app.post('/products', (req, res) => {
         return;
     }
     const newProduct = {
-        title,
-        id
+        title, id
     };
     db_1.dataProducts.push(newProduct);
     return res.status(db_1.HTTP_STATUSES.CREATED_201).send(newProduct);
+});
+app.put('/products/:id', (req, res) => {
+    const errors = {
+        errorsMessages: []
+    };
+    let { title, id } = req.body;
+    let numberId = Number(id);
+    if (Object.entries(req.body).length === 0) {
+        //проверка на пустоту req
+        res.sendStatus(db_1.HTTP_STATUSES.BAD_REQUEST_400);
+        return;
+    }
+    if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
+        errors.errorsMessages.push({ message: `Incorrect title, length = ${title.length.toString()}`, field: `value` });
+    }
+    if (!numberId || typeof numberId !== 'number') {
+        errors.errorsMessages.push({ message: `Incorrect id`, field: `id` });
+    }
+    if (errors.errorsMessages.length) {
+        res
+            .status(db_1.HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+    let idParams = +req.params.id;
+    let entityProduct = db_1.dataProducts.find(a => a.id === idParams);
+    if (entityProduct) {
+        entityProduct.title = title;
+        entityProduct.id = numberId;
+        return res
+            .status(db_1.HTTP_STATUSES.NO_CONTENT_204)
+            .send(entityProduct);
+    }
+    else {
+        return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+    }
+});
+app.put('/addresses/:id', (req, res) => {
+    const errors = {
+        errorsMessages: []
+    };
+    let { value, id } = req.body;
+    let numberId = Number(id);
+    if (Object.entries(req.body).length === 0) {
+        //проверка на пустоту req
+        res.sendStatus(db_1.HTTP_STATUSES.BAD_REQUEST_400);
+        return;
+    }
+    if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
+        errors.errorsMessages.push({ message: `Incorrect value, length = ${value.length.toString()}`, field: `value` });
+    }
+    if (!numberId || typeof numberId !== 'number') {
+        errors.errorsMessages.push({ message: `Incorrect id`, field: `id` });
+    }
+    if (errors.errorsMessages.length) {
+        res
+            .status(db_1.HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+    let idParams = +req.params.id;
+    let entityAdresses = db_1.dataAddresses.find(a => a.id === idParams);
+    if (entityAdresses) {
+        entityAdresses.value = value;
+        entityAdresses.id = numberId;
+        return res
+            .status(db_1.HTTP_STATUSES.NO_CONTENT_204)
+            .send(entityAdresses);
+    }
+    else {
+        return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+    }
 });
 app.delete('/addresses', (req, res) => {
     db_1.dataAddresses.length = 0;
