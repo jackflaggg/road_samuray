@@ -49,7 +49,6 @@ app.post('/addresses', (req: Request, res: Response) => {
     }
 
     let {value, id} = req.body;
-    console.log(value, id);
 
     if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
         errors.errorsMessages.push({message: `Incorrect value, length = ${value.length.toString()}`, field: `value`});
@@ -82,7 +81,6 @@ app.post('/products', (req: Request, res: Response) => {
     }
 
     let {title, id} = req.body;
-    console.log(title, id);
 
     if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
         errors.errorsMessages.push({message: `Incorrect value, length = ${title.length.toString()}`, field: `value`});
@@ -100,14 +98,97 @@ app.post('/products', (req: Request, res: Response) => {
     }
 
     const newProduct: Product = {
-        title,
-        id
+        title, id
     }
 
     dataProducts.push(newProduct);
     return res.status(HTTP_STATUSES.CREATED_201).send(newProduct);
 
 });
+
+app.put('/products/:id', (req: Request, res: Response) => {
+    const errors: ErrorsType = {
+        errorsMessages: []
+    }
+    let {title, id} = req.body;
+    let numberId = Number(id);
+
+    if (Object.entries(req.body).length === 0){
+        //проверка на пустоту req
+        res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400);
+        return;
+    }
+
+    if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
+        errors.errorsMessages.push({message: `Incorrect title, length = ${title.length.toString()}`, field: `value`});
+    }
+
+    if (!numberId || typeof numberId !== 'number') {
+        errors.errorsMessages.push({message: `Incorrect id`, field: `id`});
+    }
+
+    if (errors.errorsMessages.length){
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+
+    let idParams = +req.params.id;
+    let entityProduct = dataProducts.find(a => a.id === idParams);
+    if (entityProduct) {
+        entityProduct.title = title;
+        entityProduct.id = numberId;
+        return res
+            .status(HTTP_STATUSES.NO_CONTENT_204)
+            .send(entityProduct)
+    } else {
+        return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
+    }
+
+})
+
+app.put('/addresses/:id', (req: Request, res: Response) => {
+    const errors: ErrorsType = {
+        errorsMessages: []
+    }
+    let {value, id} = req.body;
+    let numberId = Number(id);
+
+    if (Object.entries(req.body).length === 0){
+        //проверка на пустоту req
+        res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400);
+        return;
+    }
+
+    if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
+        errors.errorsMessages.push({message: `Incorrect value, length = ${value.length.toString()}`, field: `value`});
+    }
+
+    if (!numberId || typeof numberId !== 'number') {
+        errors.errorsMessages.push({message: `Incorrect id`, field: `id`});
+    }
+
+    if (errors.errorsMessages.length){
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+
+    let idParams = +req.params.id;
+    let entityAdresses = dataAddresses.find(a => a.id === idParams);
+    if (entityAdresses) {
+        entityAdresses.value = value;
+        entityAdresses.id = numberId;
+        return res
+            .status(HTTP_STATUSES.NO_CONTENT_204)
+            .send(entityAdresses)
+    } else {
+        return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
+    }
+
+})
 
 app.delete('/addresses', (req: Request, res: Response) => {
     dataAddresses.length = 0;
