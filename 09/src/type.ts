@@ -10,7 +10,7 @@ export interface Address {
 
 export type ErrorsMessageType = {
     field: string,
-    message: string
+    message: string,
 }
 
 export type ErrorsType = {
