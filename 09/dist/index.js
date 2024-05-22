@@ -14,8 +14,8 @@ app.get('/addresses', (req, res) => {
     res.status(db_1.HTTP_STATUSES.OK_200).send(db_1.dataAddresses);
 });
 app.get('/products/:id', (req, res) => {
-    const idProduct = Number(req.params.id);
-    const product = db_1.dataProducts.find(p => p.id === idProduct);
+    const { id: idProduct } = req.params;
+    const product = db_1.dataProducts.find(p => p.id === +idProduct);
     if (!product) {
         res.status(db_1.HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
         return;

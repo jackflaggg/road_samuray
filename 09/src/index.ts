@@ -13,8 +13,8 @@ app.get('/addresses', (req: Request, res: Response) => {
 });
 
 app.get('/products/:id', (req: Request, res: Response) => {
-    const idProduct = Number(req.params.id);
-    const product = dataProducts.find(p => p.id === idProduct);
+    const {id : idProduct} = req.params;
+    const product = dataProducts.find(p => p.id === +idProduct);
 
     if (!product) {
         res.status(HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
