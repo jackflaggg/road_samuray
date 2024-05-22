@@ -51,6 +51,25 @@ app.delete('/products', (req: Request, res: Response) => {
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
+app.delete('/addresses/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+    const index = dataProducts.findIndex(product => product.id === +id);
+
+    if (index === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+
+    dataAddresses.splice(index, 1);
+    return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+});
+
+app.delete('/products/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+    const index = dataProducts.findIndex(index => index.id === +id);
+    if (index === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+
+    dataProducts.splice(index, 1);
+    return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+});
+
 app.listen(port, () => {
     console.log(`APP started on port: ${port}`)
 });

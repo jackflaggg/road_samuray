@@ -45,6 +45,22 @@ app.delete('/products', (req, res) => {
     db_1.dataProducts.length = 0;
     res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
 });
+app.delete('/addresses/:id', (req, res) => {
+    const { id } = req.params;
+    const index = db_1.dataProducts.findIndex(product => product.id === +id);
+    if (index === -1)
+        res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+    db_1.dataAddresses.splice(index, 1);
+    return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+});
+app.delete('/products/:id', (req, res) => {
+    const { id } = req.params;
+    const index = db_1.dataProducts.findIndex(index => index.id === +id);
+    if (index === -1)
+        res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+    db_1.dataProducts.splice(index, 1);
+    return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+});
 app.listen(port, () => {
     console.log(`APP started on port: ${port}`);
 });
