@@ -1,23 +1,22 @@
 import express, {Request, Response} from 'express';
+import {dataAddresses, dataProducts, HTTP_STATUSES} from "./db";
 
 const app = express();
 const port: string | number = process.env.PORT || 3015;
 
-const dataProducts = [{title: 'tomato'}, {title: 'apple'}];
-const dataAddresses = [{value: 'Lenina 30'}, {value: 'Artema 128'}]
-
 app.get('/products', (req: Request, res: Response) => {
-    res.send(dataProducts);
+    res.status(HTTP_STATUSES.OK_200).send(dataProducts);
 });
 
-app.get('/products/:id', (req: Request, res: Response) => {
-    let chunk = dataProducts.find(product => product.title === 'apple');
-    res.send(chunk);
+app.get('/products/:id', (_req: Request, res: Response) => {
+
+    res.status(HTTP_STATUSES.OK_200).send();
 });
 
 app.get('/addresses', (req: Request, res: Response) => {
-    res.send(dataAddresses);
+    res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
+
 app.listen(port, () => {
     console.log(`APP started on port: ${port}`)
 });
