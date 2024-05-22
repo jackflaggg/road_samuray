@@ -1,8 +1,10 @@
 import express, {Request, Response} from 'express';
 import {dataAddresses, dataProducts, HTTP_STATUSES} from "./db";
+import {Address, ErrorsType, Product} from "./type";
 
 const app = express();
 const port: string | number = process.env.PORT || 3015;
+app.use(express.json());
 
 app.get('/products', (req: Request, res: Response) => {
     if (req.query.title) {
@@ -39,6 +41,72 @@ app.get('/addresses/:id', (req: Request, res: Response) => {
     }
 
     res.status(HTTP_STATUSES.OK_200).send(address);
+});
+
+app.post('/addresses', (req: Request, res: Response) => {
+    const errors: ErrorsType = {
+        errorsMessages: []
+    }
+
+    let {value, id} = req.body;
+    console.log(value, id);
+
+    if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
+        errors.errorsMessages.push({message: `Incorrect value, length = ${value.length.toString()}`, field: `value`});
+    }
+
+    if (!id || typeof id !== 'number') {
+        errors.errorsMessages.push({message: `Incorrect id`, field: `id`});
+    }
+
+    if (errors.errorsMessages.length){
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+
+    const newAdress: Address = {
+        value,
+        id
+    }
+
+    dataAddresses.push(newAdress);
+    return res.status(HTTP_STATUSES.CREATED_201).send(newAdress);
+
+});
+
+app.post('/products', (req: Request, res: Response) => {
+    const errors: ErrorsType = {
+        errorsMessages: []
+    }
+
+    let {title, id} = req.body;
+    console.log(title, id);
+
+    if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
+        errors.errorsMessages.push({message: `Incorrect value, length = ${title.length.toString()}`, field: `value`});
+    }
+
+    if (!id || typeof id !== 'number') {
+        errors.errorsMessages.push({message: `Incorrect id`, field: `id`});
+    }
+
+    if (errors.errorsMessages.length){
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+
+    const newProduct: Product = {
+        title,
+        id
+    }
+
+    dataProducts.push(newProduct);
+    return res.status(HTTP_STATUSES.CREATED_201).send(newProduct);
+
 });
 
 app.delete('/addresses', (req: Request, res: Response) => {

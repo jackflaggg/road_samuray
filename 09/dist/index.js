@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const db_1 = require("./db");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3015;
+app.use(express_1.default.json());
 app.get('/products', (req, res) => {
     if (req.query.title) {
         const searchString = req.query.title.toString();
@@ -36,6 +37,56 @@ app.get('/addresses/:id', (req, res) => {
         return;
     }
     res.status(db_1.HTTP_STATUSES.OK_200).send(address);
+});
+app.post('/addresses', (req, res) => {
+    const errors = {
+        errorsMessages: []
+    };
+    let { value, id } = req.body;
+    console.log(value, id);
+    if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
+        errors.errorsMessages.push({ message: `Incorrect value, length = ${value.length.toString()}`, field: `value` });
+    }
+    if (!id || typeof id !== 'number') {
+        errors.errorsMessages.push({ message: `Incorrect id`, field: `id` });
+    }
+    if (errors.errorsMessages.length) {
+        res
+            .status(db_1.HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+    const newAdress = {
+        value,
+        id
+    };
+    db_1.dataAddresses.push(newAdress);
+    return res.status(db_1.HTTP_STATUSES.CREATED_201).send(newAdress);
+});
+app.post('/products', (req, res) => {
+    const errors = {
+        errorsMessages: []
+    };
+    let { title, id } = req.body;
+    console.log(title, id);
+    if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
+        errors.errorsMessages.push({ message: `Incorrect value, length = ${title.length.toString()}`, field: `value` });
+    }
+    if (!id || typeof id !== 'number') {
+        errors.errorsMessages.push({ message: `Incorrect id`, field: `id` });
+    }
+    if (errors.errorsMessages.length) {
+        res
+            .status(db_1.HTTP_STATUSES.BAD_REQUEST_400)
+            .send(errors);
+        return;
+    }
+    const newProduct = {
+        title,
+        id
+    };
+    db_1.dataProducts.push(newProduct);
+    return res.status(db_1.HTTP_STATUSES.CREATED_201).send(newProduct);
 });
 app.delete('/addresses', (req, res) => {
     db_1.dataAddresses.length = 0;
