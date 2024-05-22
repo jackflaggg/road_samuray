@@ -5,7 +5,12 @@ const app = express();
 const port: string | number = process.env.PORT || 3015;
 
 app.get('/products', (req: Request, res: Response) => {
-    res.status(HTTP_STATUSES.OK_200).send(dataProducts);
+    if (req.query.title) {
+        const searchString = req.query.title.toString();
+        res.send(dataProducts.filter(product => product.title.includes(searchString)));
+    } else {
+        res.status(HTTP_STATUSES.OK_200).send(dataProducts);
+    }
 });
 
 app.get('/addresses', (req: Request, res: Response) => {
@@ -22,6 +27,18 @@ app.get('/products/:id', (req: Request, res: Response) => {
     }
 
     res.status(HTTP_STATUSES.OK_200).send(product);
+});
+
+app.get('/addresses/:id', (req: Request, res: Response) => {
+    const {id : idAdress} = req.params;
+    const address = dataAddresses.find(a => a.id === +idAdress);
+
+    if (!address) {
+        res.status(HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
+        return;
+    }
+
+    res.status(HTTP_STATUSES.OK_200).send(address);
 });
 
 app.listen(port, () => {

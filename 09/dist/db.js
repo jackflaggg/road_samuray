@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HTTP_STATUSES = exports.dataAddresses = exports.dataProducts = void 0;
 exports.dataProducts = [{ title: 'tomato', id: 0 }, { title: 'apple', id: 1 }];
-exports.dataAddresses = [{ value: 'Lenina 30' }, { value: 'Artema 128' }];
+exports.dataAddresses = [{ value: 'Lenina 30', id: 0 }, { value: 'Artema 128', id: 1 }];
 var HTTP_STATUSES;
 (function (HTTP_STATUSES) {
     HTTP_STATUSES[HTTP_STATUSES["OK_200"] = 200] = "OK_200";

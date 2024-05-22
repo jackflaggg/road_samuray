@@ -5,4 +5,5 @@ export interface Product {
 
 export interface Address {
     value: string,
+    id: number
 }

@@ -1,7 +1,7 @@
 import {Address, Product} from "./type";
 
 export const dataProducts: Product[] = [{title: 'tomato', id: 0}, {title: 'apple', id: 1}];
-export const dataAddresses: Address[] = [{value: 'Lenina 30'}, {value: 'Artema 128'}];
+export const dataAddresses: Address[] = [{value: 'Lenina 30', id: 0}, {value: 'Artema 128', id: 1}];
 
 export enum HTTP_STATUSES {
     OK_200 = 200,
