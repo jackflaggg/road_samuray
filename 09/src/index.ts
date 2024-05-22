@@ -8,13 +8,20 @@ app.get('/products', (req: Request, res: Response) => {
     res.status(HTTP_STATUSES.OK_200).send(dataProducts);
 });
 
-app.get('/products/:id', (_req: Request, res: Response) => {
-
-    res.status(HTTP_STATUSES.OK_200).send();
-});
-
 app.get('/addresses', (req: Request, res: Response) => {
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
+});
+
+app.get('/products/:id', (req: Request, res: Response) => {
+    const idProduct = Number(req.params.id);
+    const product = dataProducts.find(p => p.id === idProduct);
+
+    if (!product) {
+        res.status(HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
+        return;
+    }
+
+    res.status(HTTP_STATUSES.OK_200).send(product);
 });
 
 app.listen(port, () => {
