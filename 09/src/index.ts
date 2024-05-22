@@ -137,15 +137,17 @@ app.put('/products/:id', (req: Request, res: Response) => {
     let idParams = +req.params.id;
     let entityProduct = dataProducts.find(a => a.id === idParams);
     if (entityProduct) {
-        entityProduct.title = title;
-        entityProduct.id = numberId;
+        entityProduct = {
+            ...entityProduct,
+            title: title,
+            id: numberId
+        };
         return res
             .status(HTTP_STATUSES.NO_CONTENT_204)
             .send(entityProduct)
     } else {
         return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
     }
-
 })
 
 app.put('/addresses/:id', (req: Request, res: Response) => {
@@ -179,8 +181,11 @@ app.put('/addresses/:id', (req: Request, res: Response) => {
     let idParams = +req.params.id;
     let entityAdresses = dataAddresses.find(a => a.id === idParams);
     if (entityAdresses) {
-        entityAdresses.value = value;
-        entityAdresses.id = numberId;
+        entityAdresses = {
+            ...entityAdresses,
+            value: value,
+            id: numberId
+        };
         return res
             .status(HTTP_STATUSES.NO_CONTENT_204)
             .send(entityAdresses)
