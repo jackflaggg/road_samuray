@@ -111,8 +111,7 @@ app.put('/products/:id', (req, res) => {
     let idParams = +req.params.id;
     let entityProduct = db_1.dataProducts.find(a => a.id === idParams);
     if (entityProduct) {
-        entityProduct.title = title;
-        entityProduct.id = numberId;
+        entityProduct = Object.assign(Object.assign({}, entityProduct), { title: title, id: numberId });
         return res
             .status(db_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(entityProduct);
@@ -147,8 +146,7 @@ app.put('/addresses/:id', (req, res) => {
     let idParams = +req.params.id;
     let entityAdresses = db_1.dataAddresses.find(a => a.id === idParams);
     if (entityAdresses) {
-        entityAdresses.value = value;
-        entityAdresses.id = numberId;
+        entityAdresses = Object.assign(Object.assign({}, entityAdresses), { value: value, id: numberId });
         return res
             .status(db_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(entityAdresses);
