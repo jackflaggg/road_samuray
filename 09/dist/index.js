@@ -37,6 +37,14 @@ app.get('/addresses/:id', (req, res) => {
     }
     res.status(db_1.HTTP_STATUSES.OK_200).send(address);
 });
+app.delete('/addresses', (req, res) => {
+    db_1.dataAddresses.length = 0;
+    res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
+});
+app.delete('/products', (req, res) => {
+    db_1.dataProducts.length = 0;
+    res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
+});
 app.listen(port, () => {
     console.log(`APP started on port: ${port}`);
 });

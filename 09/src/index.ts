@@ -41,6 +41,16 @@ app.get('/addresses/:id', (req: Request, res: Response) => {
     res.status(HTTP_STATUSES.OK_200).send(address);
 });
 
+app.delete('/addresses', (req: Request, res: Response) => {
+    dataAddresses.length = 0;
+    res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
+});
+
+app.delete('/products', (req: Request, res: Response) => {
+    dataProducts.length = 0;
+    res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
+});
+
 app.listen(port, () => {
     console.log(`APP started on port: ${port}`)
 });
