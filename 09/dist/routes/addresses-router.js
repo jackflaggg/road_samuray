@@ -7,7 +7,7 @@ exports.addressesRouter = (0, express_1.Router)({});
 exports.addressesRouter.get('/', (req, res) => {
     res.status(db_1.HTTP_STATUSES.OK_200).send(db_1.dataAddresses);
 });
-exports.addressesRouter.get('/addresses/:id', (req, res) => {
+exports.addressesRouter.get('/:id', (req, res) => {
     const { id: idAdress } = req.params;
     const address = db_1.dataAddresses.find(a => a.id === +idAdress);
     if (!address) {

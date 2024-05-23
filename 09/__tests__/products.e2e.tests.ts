@@ -12,8 +12,6 @@ describe(RouterPaths.products, ()=> {
             .delete(RouterPaths.testingAllData)
     });
 
-
-
     it('+GET method: return code 200 and all data address',  async ()=> {
         await getRequest()
             .get(RouterPaths.products)

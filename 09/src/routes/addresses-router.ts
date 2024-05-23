@@ -9,7 +9,7 @@ addressesRouter.get('/', (req: Request, res: Response) => {
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
 
-addressesRouter.get('/addresses/:id', (req: Request, res: Response) => {
+addressesRouter.get('/:id', (req: Request, res: Response) => {
     const {id : idAdress} = req.params;
     const address = dataAddresses.find(a => a.id === +idAdress);
 

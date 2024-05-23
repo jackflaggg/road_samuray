@@ -7,7 +7,7 @@ export const app = express();
 export const RouterPaths: {[key: string]: string} = {
     addresses: "/addresses",
     products: "/products",
-    testingAllData: "/__test__/data'"
+    testingAllData: "/__test__/data"
 };
 
 app.use(express.json());
