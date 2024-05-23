@@ -1,26 +1,22 @@
-import {describe} from "node:test";
 import request from "supertest";
-import {app} from "../src";
+import {app} from "../src/app";
 import {dataAddresses, HTTP_STATUSES} from "../src/db";
+import {RouterPaths} from "../src/app";
 
 const getRequest = () => request(app);
 
-describe('/addresses', ()=> {
+describe(RouterPaths.addresses, ()=> {
     beforeAll(async() => {
         await getRequest()
-            .delete('/__test__/data')
-    })
+            .delete(RouterPaths.testingAllData)
+    });
 
-    it('Should return code 200 and a data address',  async ()=> {
+    it('+GET method: return code 200 and all data address',  async ()=> {
         await getRequest()
-            .get('/addresses')
+            .get(RouterPaths.addresses)
             .expect(HTTP_STATUSES.OK_200, dataAddresses)
     });
 
-    it('Should return code 404 and a data address',  async ()=> {
-        await getRequest()
-            .get('/addresses')
-            .expect(HTTP_STATUSES.NOT_FOUND_404, [])
-    })
+
 
 })

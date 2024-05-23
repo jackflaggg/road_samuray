@@ -3,7 +3,7 @@ import {Address, ErrorsType, Product} from "./type";
 export const dataProducts: Product[] = [{title: 'tomato', id: 0}, {title: 'apple', id: 1}];
 export const dataAddresses: Address[] = [{value: 'Lenina 30', id: 0}, {value: 'Artema 128', id: 1}];
 
-export let db = [dataProducts, dataAddresses];
+export let db:(Product[]|Address[])[] = [dataProducts, dataAddresses];
 
 export enum HTTP_STATUSES {
     OK_200 = 200,

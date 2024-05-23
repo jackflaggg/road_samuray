@@ -1,13 +1,11 @@
 import {Request, Response, Router} from "express";
 import {dataAddresses, dataProducts, HTTP_STATUSES} from "../db";
 import {Address, ErrorsType} from "../type";
+import {RouterPaths} from "../app";
 
 export const addressesRouter = Router({});
 
-addressesRouter.get('/addresses', (req: Request, res: Response) => {
-    if (!dataAddresses){
-        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
-    }
+addressesRouter.get('/', (req: Request, res: Response) => {
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
 
