@@ -5,7 +5,7 @@ import {app} from "../app";
 
 export const productsRouter = Router({});
 
-productsRouter.get('/products', (req: Request, res: Response) => {
+productsRouter.get('/', (req: Request, res: Response) => {
     if (req.query.title) {
         const searchString = req.query.title.toString();
         res.send(dataProducts.filter(product => product.title.includes(searchString)));

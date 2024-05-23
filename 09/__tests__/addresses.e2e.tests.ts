@@ -6,6 +6,7 @@ import {RouterPaths} from "../src/app";
 const getRequest = () => request(app);
 
 describe(RouterPaths.addresses, ()=> {
+
     beforeAll(async() => {
         await getRequest()
             .delete(RouterPaths.testingAllData)
@@ -16,7 +17,5 @@ describe(RouterPaths.addresses, ()=> {
             .get(RouterPaths.addresses)
             .expect(HTTP_STATUSES.OK_200, dataAddresses)
     });
-
-
 
 })

@@ -13,7 +13,7 @@ export const RouterPaths: {[key: string]: string} = {
 app.use(express.json());
 
 app.use(RouterPaths.addresses, addressesRouter);
-// app.use(RouterPaths.products, productsRouter);
+app.use(RouterPaths.products, productsRouter);
 
 app.delete(RouterPaths.testingAllData, (req: Request, res: Response) => {
     db.length = 0;
