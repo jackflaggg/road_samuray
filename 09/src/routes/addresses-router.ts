@@ -1,7 +1,6 @@
 import {Request, Response, Router} from "express";
 import {dataAddresses, dataProducts, HTTP_STATUSES} from "../db";
 import {Address, ErrorsType} from "../type";
-import {RouterPaths} from "../app";
 
 export const addressesRouter = Router({});
 

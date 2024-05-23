@@ -13,7 +13,7 @@ exports.productsRouter.get('/', (req, res) => {
         res.status(db_1.HTTP_STATUSES.OK_200).send(db_1.dataProducts);
     }
 });
-exports.productsRouter.get('/products/:id', (req, res) => {
+exports.productsRouter.get('/:id', (req, res) => {
     const { id: idProduct } = req.params;
     const product = db_1.dataProducts.find(p => p.id === +idProduct);
     if (!product) {

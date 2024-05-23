@@ -1,7 +1,6 @@
 import {Request, Response, Router} from "express";
 import {dataProducts, HTTP_STATUSES} from "../db";
 import {ErrorsType, Product} from "../type";
-import {app} from "../app";
 
 export const productsRouter = Router({});
 
@@ -14,7 +13,7 @@ productsRouter.get('/', (req: Request, res: Response) => {
     }
 });
 
-productsRouter.get('/products/:id', (req: Request, res: Response) => {
+productsRouter.get('/:id', (req: Request, res: Response) => {
     const {id : idProduct} = req.params;
     const product = dataProducts.find(p => p.id === +idProduct);
 
