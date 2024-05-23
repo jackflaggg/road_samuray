@@ -1,8 +1,8 @@
 import express, {Request, Response} from 'express';
-import {dataAddresses, dataProducts, HTTP_STATUSES} from "./db";
+import {dataAddresses, dataProducts, db, HTTP_STATUSES} from "./db";
 import {Address, ErrorsType, Product} from "./type";
 
-const app = express();
+export const app = express();
 const port: string | number = process.env.PORT || 3015;
 app.use(express.json());
 
@@ -16,6 +16,9 @@ app.get('/products', (req: Request, res: Response) => {
 });
 
 app.get('/addresses', (req: Request, res: Response) => {
+    if (!dataAddresses){
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+    }
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
 
@@ -224,6 +227,10 @@ app.delete('/products/:id', (req: Request, res: Response) => {
     return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
 });
 
+app.delete('/__test__/data', (req: Request, res: Response) => {
+    db.length = 0;
+    res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
+})
 app.listen(port, () => {
     console.log(`APP started on port: ${port}`)
 });
