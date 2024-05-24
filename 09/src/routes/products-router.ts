@@ -10,7 +10,7 @@ import {
 } from "../type";
 import {ProductUpdateAndCreateInputModel} from "../models/productModels/ProductCreateModel";
 import {ProductGetInputModel} from "../models/productModels/GetProductQueryModel";
-import {ProductGetInputModelParams} from "../models/productModels/GetProductURIModel";
+import {ProductInputModelParams} from "../models/productModels/GetProductURIModel";
 
 export const productsRouter = Router({});
 
@@ -24,7 +24,7 @@ productsRouter.get('/', (req: RequestWithQuery<ProductGetInputModel>,
     }
 });
 
-productsRouter.get('/:id', (req: RequestWithParams<ProductGetInputModelParams>,
+productsRouter.get('/:id', (req: RequestWithParams<ProductInputModelParams>,
                             res: Response) => {
     const {id : idProduct} = req.params;
     const product = dataProducts.find(p => p.id === +idProduct);
@@ -69,7 +69,7 @@ productsRouter.post('/', (req: RequestWithBody<ProductUpdateAndCreateInputModel>
 
 });
 
-productsRouter.put('/:id', (req: RequestWithParamsAndBody<ProductGetInputModelParams, ProductUpdateAndCreateInputModel>,
+productsRouter.put('/:id', (req: RequestWithParamsAndBody<ProductInputModelParams, ProductUpdateAndCreateInputModel>,
                             res: Response<Product | ErrorsType>) => {
     const errors: ErrorsType = {
         errorsMessages: []
@@ -116,12 +116,12 @@ productsRouter.delete('/', (req: Request,
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
-productsRouter.delete('/:id', (req: RequestWithParams<ProductGetInputModelParams>,
-                               res: Response) => {
+productsRouter.delete('/:id', (req: RequestWithParams<ProductInputModelParams>,
+                               res) => {
     const { id } = req.params;
-    const index = dataProducts.findIndex(index => index.id === +id);
-    if (index === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+    const indexProduct = dataProducts.findIndex(index => index.id === +id);
+    if (indexProduct === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
 
-    dataProducts.splice(index, 1);
+    dataProducts.splice(indexProduct, 1);
     return res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });

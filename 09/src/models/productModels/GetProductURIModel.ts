@@ -1,3 +1,3 @@
-export type ProductGetInputModelParams = {
+export type ProductInputModelParams = {
     id: string,
 }

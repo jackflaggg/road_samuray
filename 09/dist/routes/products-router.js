@@ -86,9 +86,9 @@ exports.productsRouter.delete('/', (req, res) => {
 });
 exports.productsRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
-    const index = db_1.dataProducts.findIndex(index => index.id === +id);
-    if (index === -1)
+    const indexProduct = db_1.dataProducts.findIndex(index => index.id === +id);
+    if (indexProduct === -1)
         res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
-    db_1.dataProducts.splice(index, 1);
+    db_1.dataProducts.splice(indexProduct, 1);
     return res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
 });
