@@ -2,6 +2,7 @@ import express, {Request, Response} from "express";
 import {db, HTTP_STATUSES} from "./db";
 import {addressesRouter} from "./routes/addresses-router";
 import {productsRouter} from "./routes/products-router";
+import cors from "cors";
 
 export const app = express();
 export const RouterPaths: {[key: string]: string} = {
@@ -11,6 +12,7 @@ export const RouterPaths: {[key: string]: string} = {
 };
 
 app.use(express.json());
+app.use(cors());
 
 app.use(RouterPaths.addresses, addressesRouter);
 app.use(RouterPaths.products, productsRouter);
