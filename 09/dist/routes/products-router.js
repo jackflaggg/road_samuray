@@ -6,7 +6,7 @@ const db_1 = require("../db");
 exports.productsRouter = (0, express_1.Router)({});
 exports.productsRouter.get('/', (req, res) => {
     if (req.query.title) {
-        const searchString = req.query.title.toString();
+        const searchString = req.query.title;
         res.send(db_1.dataProducts.filter(product => product.title.includes(searchString)));
     }
     else {

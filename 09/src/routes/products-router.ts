@@ -6,7 +6,7 @@ export const productsRouter = Router({});
 
 productsRouter.get('/', (req: Request<{}, {}, {}, {title: string}>, res: Response) => {
     if (req.query.title) {
-        const searchString = req.query.title.toString();
+        const searchString = req.query.title;
         res.send(dataProducts.filter(product => product.title.includes(searchString)));
     } else {
         res.status(HTTP_STATUSES.OK_200).send(dataProducts);
