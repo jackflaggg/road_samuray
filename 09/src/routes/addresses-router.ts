@@ -1,7 +1,8 @@
 import {Request, Response, Router} from "express";
 import {dataAddresses, dataProducts, HTTP_STATUSES} from "../db";
-import {Address, ErrorsType, RequestWithQuery} from "../type";
+import {Address, ErrorsType, RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../type";
 import {GetAddressesQueryModel} from "../models/addressesModels/GetAddressesQueryModel";
+import {AddressesInputModelParams} from "../models/addressesModels/AddressesUpdateModel";
 
 export const addressesRouter = Router({});
 
@@ -13,9 +14,9 @@ addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModel>, res: Re
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
 
-addressesRouter.get('/:id', (req: Request, res: Response) => {
-    const {id : idAdress} = req.params;
-    const address = dataAddresses.find(a => a.id === +idAdress);
+addressesRouter.get('/:id', (req: RequestWithParams<AddressesInputModelParams>, res: Response<Address | string>) => {
+    const {id : idAddress} = req.params;
+    const address = dataAddresses.find(a => a.id === +idAddress);
 
     if (!address) {
         res.status(HTTP_STATUSES.NOT_FOUND_404).send('Not Found');

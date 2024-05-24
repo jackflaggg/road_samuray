@@ -5,11 +5,15 @@ const express_1 = require("express");
 const db_1 = require("../db");
 exports.addressesRouter = (0, express_1.Router)({});
 exports.addressesRouter.get('/', (req, res) => {
+    let { value: newValue } = req.query;
+    if (newValue) {
+        res.send(db_1.dataAddresses.filter(a => a.value.includes(newValue)));
+    }
     res.status(db_1.HTTP_STATUSES.OK_200).send(db_1.dataAddresses);
 });
 exports.addressesRouter.get('/:id', (req, res) => {
-    const { id: idAdress } = req.params;
-    const address = db_1.dataAddresses.find(a => a.id === +idAdress);
+    const { id: idAddress } = req.params;
+    const address = db_1.dataAddresses.find(a => a.id === +idAddress);
     if (!address) {
         res.status(db_1.HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
         return;
