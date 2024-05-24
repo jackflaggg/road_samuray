@@ -1,11 +1,11 @@
-import express, {Request, Response} from "express";
+import express, {Express, Request, Response} from "express";
 import cors from 'cors';
 import {db, HTTP_STATUSES} from "./db";
 import {addressesRouter} from "./routes/addresses-router";
 import {productsRouter} from "./routes/products-router";
 import {SETTINGS} from "./settings";
 
-export const app = express();
+export const app: Express = express();
 
 app.use(express.json());
 app.use(cors());

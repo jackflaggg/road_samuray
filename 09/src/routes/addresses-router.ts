@@ -1,10 +1,15 @@
 import {Request, Response, Router} from "express";
 import {dataAddresses, dataProducts, HTTP_STATUSES} from "../db";
-import {Address, ErrorsType} from "../type";
+import {Address, ErrorsType, RequestWithQuery} from "../type";
+import {GetAddressesQueryModel} from "../models/addressesModels/GetAddressesQueryModel";
 
 export const addressesRouter = Router({});
 
-addressesRouter.get('/', (req: Request, res: Response) => {
+addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModel>, res: Response) => {
+    let {value : newValue} = req.query;
+    if (newValue){
+        res.send(dataAddresses.filter(a => a.value.includes(newValue)));
+    }
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
 
