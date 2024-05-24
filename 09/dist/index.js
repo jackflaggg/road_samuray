@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./app");
-const port = process.env.PORT || 3015;
-app_1.app.listen(port, () => {
-    console.log(`APP started on port: ${port}`);
+const settings_1 = require("./settings");
+app_1.app.listen(settings_1.SETTINGS.PORT, () => {
+    console.log(`APP started on port: ${settings_1.SETTINGS.PORT}`);
 });

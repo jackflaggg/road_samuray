@@ -1,7 +1,6 @@
 import {app} from "./app";
+import {SETTINGS} from "./settings";
 
-const port: string | number = process.env.PORT || 3015;
-
-app.listen(port, () => {
-    console.log(`APP started on port: ${port}`)
+app.listen(SETTINGS.PORT, () => {
+    console.log(`APP started on port: ${SETTINGS.PORT}`);
 });
