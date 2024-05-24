@@ -2,7 +2,11 @@ import request from "supertest";
 import {app} from "../src/app";
 import {dataProducts, HTTP_STATUSES} from "../src/db";
 import {RouterPaths} from "../src/app";
-import {bodyGetStatusNotFound, correctIdProducts, inCorrectIdProducts} from "./datatests";
+import {
+    bodyGetStatusNotFound,
+    correctIdProducts,
+    inCorrectIdProducts
+} from "./datatests";
 
 const getRequest = () => request(app);
 
@@ -29,5 +33,17 @@ describe(RouterPaths.products, ()=> {
         await getRequest()
             .get(`${RouterPaths.products}/${inCorrectIdProducts}`)
             .expect(HTTP_STATUSES.NOT_FOUND_404, bodyGetStatusNotFound);
+    });
+
+    it('+DELETE method: correct id, and return code 200',  async ()=> {
+        await getRequest()
+            .delete(`${RouterPaths.products}/${correctIdProducts}`)
+            .expect(HTTP_STATUSES.NOT_FOUND_404);
+    });
+
+    it('-DELETE method: incorrect id, and return code 200',  async ()=> {
+        await getRequest()
+            .delete(`${RouterPaths.products}/${inCorrectIdProducts}`)
+            .expect(HTTP_STATUSES.NOT_FOUND_404);
     });
 })

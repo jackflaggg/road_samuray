@@ -40,20 +40,21 @@ exports.addressesRouter.post('/addresses', (req, res) => {
     db_1.dataAddresses.push(newAdress);
     return res.status(db_1.HTTP_STATUSES.CREATED_201).send(newAdress);
 });
-exports.addressesRouter.put('/addresses/:id', (req, res) => {
+exports.addressesRouter.put('/:id', (req, res) => {
     const errors = {
         errorsMessages: []
     };
     let { value, id } = req.body;
     let numberId = Number(id);
     if (Object.entries(req.body).length === 0) {
-        //проверка на пустоту req
+        //проверка на пустоту запроса!
         res.sendStatus(db_1.HTTP_STATUSES.BAD_REQUEST_400);
         return;
     }
     if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
         errors.errorsMessages.push({ message: `Incorrect value, length = ${value.length.toString()}`, field: `value` });
     }
+    // dataAddresses.findIndex((elem) => elem.id === +req.params.id) === -1 - проверка на req.params!
     if (!numberId || typeof numberId !== 'number') {
         errors.errorsMessages.push({ message: `Incorrect id`, field: `id` });
     }
@@ -66,7 +67,7 @@ exports.addressesRouter.put('/addresses/:id', (req, res) => {
     let idParams = +req.params.id;
     let entityAdresses = db_1.dataAddresses.find(a => a.id === idParams);
     if (entityAdresses) {
-        entityAdresses = Object.assign(Object.assign({}, entityAdresses), { value: value, id: numberId });
+        Object.assign(entityAdresses, { value, id: numberId });
         return res
             .status(db_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(entityAdresses);

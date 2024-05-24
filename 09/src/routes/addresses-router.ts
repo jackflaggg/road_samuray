@@ -52,15 +52,15 @@ addressesRouter.post('/addresses', (req: Request, res: Response) => {
 
 });
 
-addressesRouter.put('/addresses/:id', (req: Request, res: Response) => {
+addressesRouter.put('/:id', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }
+
     let {value, id} = req.body;
     let numberId = Number(id);
-
     if (Object.entries(req.body).length === 0){
-        //проверка на пустоту req
+        //проверка на пустоту запроса!
         res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400);
         return;
     }
@@ -68,6 +68,8 @@ addressesRouter.put('/addresses/:id', (req: Request, res: Response) => {
     if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
         errors.errorsMessages.push({message: `Incorrect value, length = ${value.length.toString()}`, field: `value`});
     }
+
+    // dataAddresses.findIndex((elem) => elem.id === +req.params.id) === -1 - проверка на req.params!
 
     if (!numberId || typeof numberId !== 'number') {
         errors.errorsMessages.push({message: `Incorrect id`, field: `id`});
@@ -83,11 +85,7 @@ addressesRouter.put('/addresses/:id', (req: Request, res: Response) => {
     let idParams = +req.params.id;
     let entityAdresses = dataAddresses.find(a => a.id === idParams);
     if (entityAdresses) {
-        entityAdresses = {
-            ...entityAdresses,
-            value: value,
-            id: numberId
-        };
+        Object.assign(entityAdresses, { value, id: numberId });
         return res
             .status(HTTP_STATUSES.NO_CONTENT_204)
             .send(entityAdresses)

@@ -16,6 +16,6 @@ export enum HTTP_STATUSES {
     INTERNAL_SERVER_ERROR_500 = 500,
 }
 
-const errors: ErrorsType = {
+export const errors: ErrorsType = {
     errorsMessages: []
 }
