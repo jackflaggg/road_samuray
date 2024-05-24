@@ -1,4 +1,4 @@
-export type AddressesUpdateAndCreateInputModel = {
-    title: string,
+export type AddressesCreateInputModel = {
+    value: string,
     id: number
 }

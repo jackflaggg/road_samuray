@@ -1,8 +1,16 @@
 import {Request, Response, Router} from "express";
 import {dataAddresses, dataProducts, HTTP_STATUSES} from "../db";
-import {Address, ErrorsType, RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../type";
+import {
+    Address,
+    ErrorsType,
+    RequestWithBody,
+    RequestWithParams,
+    RequestWithParamsAndBody,
+    RequestWithQuery
+} from "../type";
 import {GetAddressesQueryModel} from "../models/addressesModels/GetAddressesQueryModel";
 import {AddressesInputModelParams} from "../models/addressesModels/AddressesUpdateModel";
+import {AddressesCreateInputModel} from "../models/addressesModels/AddressesCreateModel";
 
 export const addressesRouter = Router({});
 
@@ -26,7 +34,7 @@ addressesRouter.get('/:id', (req: RequestWithParams<AddressesInputModelParams>, 
     res.status(HTTP_STATUSES.OK_200).send(address);
 });
 
-addressesRouter.post('/', (req: Request, res: Response) => {
+addressesRouter.post('/', (req: RequestWithBody<AddressesCreateInputModel>, res: Response) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }
