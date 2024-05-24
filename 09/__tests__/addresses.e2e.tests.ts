@@ -5,7 +5,7 @@ import {
     bodyGetStatusNotFound,
     correctIdAddresses, inCorrectBodyIdAddresses, inCorrectBodyValueAddresses,
     inCorrectIdAddresses,
-    updateEntityAdress
+    updateEntityAddress
 } from "./datatests";
 import {SETTINGS} from "../src/settings";
 
@@ -51,14 +51,14 @@ describe(SETTINGS.RouterPaths.addresses, ()=> {
     it('+PUT method: correct id - uri params, correct body and return code 204', async () => {
         const response = await getRequest()
             .put(`${SETTINGS.RouterPaths.addresses}/${correctIdAddresses}`)
-            .send(updateEntityAdress);
+            .send(updateEntityAddress);
         expect(response.status).toEqual(HTTP_STATUSES.NO_CONTENT_204);
     });
 
     it('-PUT method: incorrect id - uri params, correct body and return code 404', async () => {
         const response = await getRequest()
             .put(`${SETTINGS.RouterPaths.addresses}/${inCorrectIdAddresses}`)
-            .send(updateEntityAdress)
+            .send(updateEntityAddress)
             .expect(HTTP_STATUSES.NOT_FOUND_404);
     });
 
@@ -79,7 +79,7 @@ describe(SETTINGS.RouterPaths.addresses, ()=> {
     it('+POST method, correct body and return code 201', async () => {
         const response = await getRequest()
             .post(`${SETTINGS.RouterPaths.addresses}`)
-            .send(updateEntityAdress)
+            .send(updateEntityAddress)
             .expect(HTTP_STATUSES.CREATED_201);
     });
 

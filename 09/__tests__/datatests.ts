@@ -6,7 +6,7 @@ export let inCorrectIdAddresses: number = 9999;
 export let correctIdProducts: number = 0;
 export let inCorrectIdProducts: number = 545
 
-export const updateEntityAdress: {value: string, id: number} = {value: 'Test ulica!', id: 5};
+export const updateEntityAddress: {value: string, id: number} = {value: 'Test ulica!', id: 5};
 export const updateEntityProducts: {title: string, id: number} = {title: 'Test', id: 3};
 export const bodyGetStatusNotFound = 'Not Found';
 
