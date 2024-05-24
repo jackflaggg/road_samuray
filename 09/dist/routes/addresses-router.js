@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addressesRouter = void 0;
 const express_1 = require("express");
 const db_1 = require("../db");
+const type_1 = require("../type");
 exports.addressesRouter = (0, express_1.Router)({});
 exports.addressesRouter.get('/', (req, res) => {
     let { value: newValue } = req.query;
@@ -15,7 +16,7 @@ exports.addressesRouter.get('/:id', (req, res) => {
     const { id: idAddress } = req.params;
     const address = db_1.dataAddresses.find(a => a.id === +idAddress);
     if (!address) {
-        res.status(db_1.HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
+        res.status(db_1.HTTP_STATUSES.NOT_FOUND_404).send(type_1.ErrorsFound);
         return;
     }
     res.status(db_1.HTTP_STATUSES.OK_200).send(address);

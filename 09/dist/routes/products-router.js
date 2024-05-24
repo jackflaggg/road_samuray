@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.productsRouter = void 0;
 const express_1 = require("express");
 const db_1 = require("../db");
+const type_1 = require("../type");
 exports.productsRouter = (0, express_1.Router)({});
 exports.productsRouter.get('/', (req, res) => {
     if (req.query.title) {
@@ -17,7 +18,7 @@ exports.productsRouter.get('/:id', (req, res) => {
     const { id: idProduct } = req.params;
     const product = db_1.dataProducts.find(p => p.id === +idProduct);
     if (!product) {
-        res.status(db_1.HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
+        res.status(db_1.HTTP_STATUSES.NOT_FOUND_404).send(type_1.ErrorsFound);
         return;
     }
     res.status(db_1.HTTP_STATUSES.OK_200).send(product);
