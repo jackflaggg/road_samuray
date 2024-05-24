@@ -1,3 +1,4 @@
-export type AddressesInputModelParams = {
-    id: string,
+export type AddressesUpdateInputModel = {
+    value: string,
+    id: number
 }

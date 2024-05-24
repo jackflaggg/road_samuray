@@ -4,17 +4,20 @@ import {
     Address,
     ErrorsType,
     RequestWithBody,
-    RequestWithParams,
-    RequestWithParamsAndBody,
+    RequestWithParams, RequestWithParamsAndBody,
     RequestWithQuery
 } from "../type";
-import {GetAddressesQueryModel} from "../models/addressesModels/GetAddressesQueryModel";
-import {AddressesInputModelParams} from "../models/addressesModels/AddressesUpdateModel";
+import {
+    GetAddressesQueryModelValue
+} from "../models/addressesModels/GetAddressesQueryModeValuel";
+import {AddressesUpdateInputModel} from "../models/addressesModels/AddressesUpdateModel";
 import {AddressesCreateInputModel} from "../models/addressesModels/AddressesCreateModel";
+import {GetAddressesQueryModelId} from "../models/addressesModels/GetAddressesQueryModeId";
+import {DeleteAddressesQueryModelId} from "../models/addressesModels/DeleteAddressesQueryModeId";
 
 export const addressesRouter = Router({});
 
-addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModel>, res: Response) => {
+addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModelValue>, res: Response) => {
     let {value : newValue} = req.query;
     if (newValue){
         res.send(dataAddresses.filter(a => a.value.includes(newValue)));
@@ -22,7 +25,7 @@ addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModel>, res: Re
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
 
-addressesRouter.get('/:id', (req: RequestWithParams<AddressesInputModelParams>, res: Response<Address | string>) => {
+addressesRouter.get('/:id', (req: RequestWithParams<GetAddressesQueryModelId>, res: Response<Address | string>) => {
     const {id : idAddress} = req.params;
     const address = dataAddresses.find(a => a.id === +idAddress);
 
@@ -66,7 +69,7 @@ addressesRouter.post('/', (req: RequestWithBody<AddressesCreateInputModel>, res:
 
 });
 
-addressesRouter.put('/:id', (req: Request, res: Response) => {
+addressesRouter.put('/:id', (req: RequestWithParamsAndBody<GetAddressesQueryModelId, AddressesUpdateInputModel>, res: Response) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }
@@ -115,7 +118,7 @@ addressesRouter.delete('/', (req: Request, res: Response) => {
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
-addressesRouter.delete('/:id', (req: Request, res: Response) => {
+addressesRouter.delete('/:id', (req: RequestWithParams<DeleteAddressesQueryModelId>, res: Response) => {
     const { id } = req.params;
     const index = dataProducts.findIndex(product => product.id === +id);
 
