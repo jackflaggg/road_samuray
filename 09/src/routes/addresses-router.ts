@@ -20,7 +20,7 @@ addressesRouter.get('/:id', (req: Request, res: Response) => {
     res.status(HTTP_STATUSES.OK_200).send(address);
 });
 
-addressesRouter.post('/addresses', (req: Request, res: Response) => {
+addressesRouter.post('/', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }

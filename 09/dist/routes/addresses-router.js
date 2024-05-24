@@ -16,7 +16,7 @@ exports.addressesRouter.get('/:id', (req, res) => {
     }
     res.status(db_1.HTTP_STATUSES.OK_200).send(address);
 });
-exports.addressesRouter.post('/addresses', (req, res) => {
+exports.addressesRouter.post('/', (req, res) => {
     const errors = {
         errorsMessages: []
     };

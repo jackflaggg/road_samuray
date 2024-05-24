@@ -25,7 +25,7 @@ productsRouter.get('/:id', (req: Request, res: Response) => {
     res.status(HTTP_STATUSES.OK_200).send(product);
 });
 
-productsRouter.post('/products', (req: Request, res: Response) => {
+productsRouter.post('/', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }
@@ -56,7 +56,7 @@ productsRouter.post('/products', (req: Request, res: Response) => {
 
 });
 
-productsRouter.put('/products/:id', (req: Request, res: Response) => {
+productsRouter.put('/:id', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }
@@ -87,11 +87,7 @@ productsRouter.put('/products/:id', (req: Request, res: Response) => {
     let idParams = +req.params.id;
     let entityProduct = dataProducts.find(a => a.id === idParams);
     if (entityProduct) {
-        entityProduct = {
-            ...entityProduct,
-            title: title,
-            id: numberId
-        };
+        Object.assign(entityProduct, {title, id: numberId});
         return res
             .status(HTTP_STATUSES.NO_CONTENT_204)
             .send(entityProduct)
@@ -100,12 +96,12 @@ productsRouter.put('/products/:id', (req: Request, res: Response) => {
     }
 })
 
-productsRouter.delete('/products', (req: Request, res: Response) => {
+productsRouter.delete('/', (req: Request, res: Response) => {
     dataProducts.length = 0;
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
-productsRouter.delete('/products/:id', (req: Request, res: Response) => {
+productsRouter.delete('/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     const index = dataProducts.findIndex(index => index.id === +id);
     if (index === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);

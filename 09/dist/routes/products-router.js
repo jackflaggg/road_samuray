@@ -22,7 +22,7 @@ exports.productsRouter.get('/:id', (req, res) => {
     }
     res.status(db_1.HTTP_STATUSES.OK_200).send(product);
 });
-exports.productsRouter.post('/products', (req, res) => {
+exports.productsRouter.post('/', (req, res) => {
     const errors = {
         errorsMessages: []
     };
@@ -45,7 +45,7 @@ exports.productsRouter.post('/products', (req, res) => {
     db_1.dataProducts.push(newProduct);
     return res.status(db_1.HTTP_STATUSES.CREATED_201).send(newProduct);
 });
-exports.productsRouter.put('/products/:id', (req, res) => {
+exports.productsRouter.put('/:id', (req, res) => {
     const errors = {
         errorsMessages: []
     };
@@ -71,7 +71,7 @@ exports.productsRouter.put('/products/:id', (req, res) => {
     let idParams = +req.params.id;
     let entityProduct = db_1.dataProducts.find(a => a.id === idParams);
     if (entityProduct) {
-        entityProduct = Object.assign(Object.assign({}, entityProduct), { title: title, id: numberId });
+        Object.assign(entityProduct, { title, id: numberId });
         return res
             .status(db_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(entityProduct);
@@ -80,11 +80,11 @@ exports.productsRouter.put('/products/:id', (req, res) => {
         return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
     }
 });
-exports.productsRouter.delete('/products', (req, res) => {
+exports.productsRouter.delete('/', (req, res) => {
     db_1.dataProducts.length = 0;
     res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
 });
-exports.productsRouter.delete('/products/:id', (req, res) => {
+exports.productsRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
     const index = db_1.dataProducts.findIndex(index => index.id === +id);
     if (index === -1)
