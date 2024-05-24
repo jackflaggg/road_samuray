@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import {dataAddresses, dataProducts, HTTP_STATUSES} from "../db";
 import {
-    Address,
+    Address, ErrorsFound,
     ErrorsType,
     RequestWithBody,
     RequestWithParams, RequestWithParamsAndBody,
@@ -13,11 +13,13 @@ import {
 import {AddressesUpdateInputModel} from "../models/addressesModels/AddressesUpdateModel";
 import {AddressesCreateInputModel} from "../models/addressesModels/AddressesCreateModel";
 import {GetAddressesQueryModelId} from "../models/addressesModels/GetAddressesQueryModeId";
-import {DeleteAddressesQueryModelId} from "../models/addressesModels/DeleteAddressesQueryModeId";
+import {
+    DeleteAddressesParamsModelId,
+} from "../models/addressesModels/DeleteAddressesQueryModeId";
 
-export const addressesRouter = Router({});
+export const addressesRouter: Router = Router({});
 
-addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModelValue>, res: Response) => {
+addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModelValue>, res: Response<Address[]>) => {
     let {value : newValue} = req.query;
     if (newValue){
         res.send(dataAddresses.filter(a => a.value.includes(newValue)));
@@ -30,14 +32,14 @@ addressesRouter.get('/:id', (req: RequestWithParams<GetAddressesQueryModelId>, r
     const address = dataAddresses.find(a => a.id === +idAddress);
 
     if (!address) {
-        res.status(HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
+        res.status(HTTP_STATUSES.NOT_FOUND_404).send(ErrorsFound);
         return;
     }
 
     res.status(HTTP_STATUSES.OK_200).send(address);
 });
 
-addressesRouter.post('/', (req: RequestWithBody<AddressesCreateInputModel>, res: Response) => {
+addressesRouter.post('/', (req: RequestWithBody<AddressesCreateInputModel>, res: Response<ErrorsType | Address>) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }
@@ -69,7 +71,7 @@ addressesRouter.post('/', (req: RequestWithBody<AddressesCreateInputModel>, res:
 
 });
 
-addressesRouter.put('/:id', (req: RequestWithParamsAndBody<GetAddressesQueryModelId, AddressesUpdateInputModel>, res: Response) => {
+addressesRouter.put('/:id', (req: RequestWithParamsAndBody<GetAddressesQueryModelId, AddressesUpdateInputModel>, res: Response<ErrorsType | Address>) => {
     const errors: ErrorsType = {
         errorsMessages: []
     }
@@ -118,9 +120,9 @@ addressesRouter.delete('/', (req: Request, res: Response) => {
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
-addressesRouter.delete('/:id', (req: RequestWithParams<DeleteAddressesQueryModelId>, res: Response) => {
+addressesRouter.delete('/:id', (req: RequestWithParams<DeleteAddressesParamsModelId>, res: Response) => {
     const { id } = req.params;
-    const index = dataProducts.findIndex(product => product.id === +id);
+    const index: number = dataProducts.findIndex(product => product.id === +id);
 
     if (index === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
 

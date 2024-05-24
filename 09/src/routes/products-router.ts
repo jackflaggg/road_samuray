@@ -1,6 +1,7 @@
 import {Request, Response, Router} from "express";
 import {dataProducts, HTTP_STATUSES} from "../db";
 import {
+    ErrorsFound,
     ErrorsType,
     Product,
     RequestWithBody,
@@ -25,12 +26,12 @@ productsRouter.get('/', (req: RequestWithQuery<ProductGetInputModel>,
 });
 
 productsRouter.get('/:id', (req: RequestWithParams<ProductInputModelParams>,
-                            res: Response) => {
+                            res: Response<Product | string>) => {
     const {id : idProduct} = req.params;
     const product = dataProducts.find(p => p.id === +idProduct);
 
     if (!product) {
-        res.status(HTTP_STATUSES.NOT_FOUND_404).send('Not Found');
+        res.status(HTTP_STATUSES.NOT_FOUND_404).send(ErrorsFound);
         return;
     }
 
@@ -117,9 +118,9 @@ productsRouter.delete('/', (req: Request,
 });
 
 productsRouter.delete('/:id', (req: RequestWithParams<ProductInputModelParams>,
-                               res) => {
+                               res: Response) => {
     const { id } = req.params;
-    const indexProduct = dataProducts.findIndex(index => index.id === +id);
+    const indexProduct: number = dataProducts.findIndex(index => index.id === +id);
     if (indexProduct === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
 
     dataProducts.splice(indexProduct, 1);

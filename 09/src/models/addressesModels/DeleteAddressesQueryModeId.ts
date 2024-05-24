@@ -1,3 +1,3 @@
-export type DeleteAddressesQueryModelId = {
+export type DeleteAddressesParamsModelId = {
     id: string,
 }

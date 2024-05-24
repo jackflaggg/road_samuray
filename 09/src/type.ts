@@ -19,6 +19,8 @@ export type ErrorsType = {
     errorsMessages: ErrorsMessageType[]
 }
 
+export const ErrorsFound: string = 'Not Found';
+
 export type RequestWithBody<T> = Request<{}, {}, T>;
 export type RequestWithQuery<T> = Request<{}, {}, {}, T>;
 export type RequestWithParams<T> = Request<T>;
