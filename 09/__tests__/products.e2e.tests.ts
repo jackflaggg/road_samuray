@@ -50,9 +50,8 @@ describe(RouterPaths.products, ()=> {
     it('+PUT method: correct id - uri params, correct body and return code 204', async () => {
         const response = await getRequest()
             .put(`${RouterPaths.products}/${correctIdProducts}`)
-            .send(updateEntityProducts)
-            .expect(HTTP_STATUSES.NO_CONTENT_204);
-        //expect(response.status).toEqual(HTTP_STATUSES.NO_CONTENT_204);
+            .send(updateEntityProducts);
+        expect(response.status).toEqual(HTTP_STATUSES.NO_CONTENT_204);
     });
 
     it('-PUT method: incorrect id - uri params, correct body and return code 404', async () => {

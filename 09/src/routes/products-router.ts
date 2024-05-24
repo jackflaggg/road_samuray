@@ -4,7 +4,7 @@ import {ErrorsType, Product} from "../type";
 
 export const productsRouter = Router({});
 
-productsRouter.get('/', (req: Request, res: Response) => {
+productsRouter.get('/', (req: Request<{}, {}, {}, {title: string}>, res: Response) => {
     if (req.query.title) {
         const searchString = req.query.title.toString();
         res.send(dataProducts.filter(product => product.title.includes(searchString)));
@@ -13,7 +13,7 @@ productsRouter.get('/', (req: Request, res: Response) => {
     }
 });
 
-productsRouter.get('/:id', (req: Request, res: Response) => {
+productsRouter.get('/:id', (req: Request<{id: number}>, res: Response) => {
     const {id : idProduct} = req.params;
     const product = dataProducts.find(p => p.id === +idProduct);
 
