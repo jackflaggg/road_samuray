@@ -36,10 +36,10 @@ describe(RouterPaths.addresses, ()=> {
             .expect(HTTP_STATUSES.NOT_FOUND_404, bodyGetStatusNotFound);
     });
 
-    it('+DELETE method: correct id, and return code 404',  async ()=> {
+    it('+DELETE method: correct id, and return code 204',  async ()=> {
         const response = await getRequest()
             .delete(`${RouterPaths.addresses}/${correctIdAddresses}`)
-            .expect(HTTP_STATUSES.NOT_FOUND_404);
+            .expect(HTTP_STATUSES.NO_CONTENT_204);
     });
 
     it('-DELETE method: incorrect id, and return code 404',  async ()=> {

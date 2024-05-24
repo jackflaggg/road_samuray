@@ -68,6 +68,7 @@ exports.addressesRouter.put('/:id', (req, res) => {
     let entityAdresses = db_1.dataAddresses.find(a => a.id === idParams);
     if (entityAdresses) {
         Object.assign(entityAdresses, { value, id: numberId });
+        console.log(entityAdresses);
         return res
             .status(db_1.HTTP_STATUSES.NO_CONTENT_204)
             .send(entityAdresses);
@@ -76,15 +77,15 @@ exports.addressesRouter.put('/:id', (req, res) => {
         return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
     }
 });
-exports.addressesRouter.delete('/addresses', (req, res) => {
+exports.addressesRouter.delete('/', (req, res) => {
     db_1.dataAddresses.length = 0;
     res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
 });
-exports.addressesRouter.delete('/addresses/:id', (req, res) => {
+exports.addressesRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
     const index = db_1.dataProducts.findIndex(product => product.id === +id);
     if (index === -1)
         res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
     db_1.dataAddresses.splice(index, 1);
-    return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+    return res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
 });

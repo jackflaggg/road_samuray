@@ -90,5 +90,5 @@ exports.productsRouter.delete('/:id', (req, res) => {
     if (index === -1)
         res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
     db_1.dataProducts.splice(index, 1);
-    return res.sendStatus(db_1.HTTP_STATUSES.NOT_FOUND_404);
+    return res.sendStatus(db_1.HTTP_STATUSES.NO_CONTENT_204);
 });

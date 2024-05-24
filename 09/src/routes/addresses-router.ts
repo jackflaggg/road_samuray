@@ -86,6 +86,7 @@ addressesRouter.put('/:id', (req: Request, res: Response) => {
     let entityAdresses = dataAddresses.find(a => a.id === idParams);
     if (entityAdresses) {
         Object.assign(entityAdresses, { value, id: numberId });
+        console.log(entityAdresses)
         return res
             .status(HTTP_STATUSES.NO_CONTENT_204)
             .send(entityAdresses)
@@ -95,18 +96,18 @@ addressesRouter.put('/:id', (req: Request, res: Response) => {
 
 });
 
-addressesRouter.delete('/addresses', (req: Request, res: Response) => {
+addressesRouter.delete('/', (req: Request, res: Response) => {
     dataAddresses.length = 0;
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
-addressesRouter.delete('/addresses/:id', (req: Request, res: Response) => {
+addressesRouter.delete('/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     const index = dataProducts.findIndex(product => product.id === +id);
 
     if (index === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
 
     dataAddresses.splice(index, 1);
-    return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
+    return res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
