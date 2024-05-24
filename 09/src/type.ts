@@ -1,3 +1,5 @@
+import {Request} from "express";
+
 export interface Product {
     title: string,
     id: number
@@ -17,3 +19,4 @@ export type ErrorsType = {
     errorsMessages: ErrorsMessageType[]
 }
 
+export type RequestWithBody<B> = Request<unknown, unknown, B, unknown>;
