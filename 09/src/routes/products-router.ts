@@ -8,10 +8,13 @@ import {
     RequestWithParamsAndBody,
     RequestWithQuery
 } from "../type";
+import {ProductUpdateAndCreateInputModel} from "../models/productModels/ProductCreateModel";
+import {ProductGetInputModel} from "../models/productModels/GetProductQueryModel";
+import {ProductGetInputModelParams} from "../models/productModels/GetProductURIModel";
 
 export const productsRouter = Router({});
 
-productsRouter.get('/', (req: RequestWithQuery<{ title: string }>,
+productsRouter.get('/', (req: RequestWithQuery<ProductGetInputModel>,
                          res: Response<Product[]>) => {
     if (req.query.title) {
         const searchString = req.query.title;
@@ -21,7 +24,7 @@ productsRouter.get('/', (req: RequestWithQuery<{ title: string }>,
     }
 });
 
-productsRouter.get('/:id', (req: RequestWithParams<{id: string}>,
+productsRouter.get('/:id', (req: RequestWithParams<ProductGetInputModelParams>,
                             res: Response) => {
     const {id : idProduct} = req.params;
     const product = dataProducts.find(p => p.id === +idProduct);
@@ -34,7 +37,7 @@ productsRouter.get('/:id', (req: RequestWithParams<{id: string}>,
     res.status(HTTP_STATUSES.OK_200).send(product);
 });
 
-productsRouter.post('/', (req: RequestWithBody<{title: string, id: number}>,
+productsRouter.post('/', (req: RequestWithBody<ProductUpdateAndCreateInputModel>,
                           res: Response<Product | ErrorsType>) => {
     const errors: ErrorsType = {
         errorsMessages: []
@@ -66,7 +69,7 @@ productsRouter.post('/', (req: RequestWithBody<{title: string, id: number}>,
 
 });
 
-productsRouter.put('/:id', (req: RequestWithParamsAndBody<{ id: string }, {title: string, id: number}>,
+productsRouter.put('/:id', (req: RequestWithParamsAndBody<ProductGetInputModelParams, ProductUpdateAndCreateInputModel>,
                             res: Response<Product | ErrorsType>) => {
     const errors: ErrorsType = {
         errorsMessages: []
@@ -113,7 +116,7 @@ productsRouter.delete('/', (req: Request,
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
-productsRouter.delete('/:id', (req: RequestWithParams<{id: string}>,
+productsRouter.delete('/:id', (req: RequestWithParams<ProductGetInputModelParams>,
                                res: Response) => {
     const { id } = req.params;
     const index = dataProducts.findIndex(index => index.id === +id);
