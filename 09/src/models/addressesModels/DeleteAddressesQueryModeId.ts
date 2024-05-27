@@ -1,3 +1,3 @@
 export type DeleteAddressesParamsModelId = {
-    id: string,
+    id: string | number,
 }

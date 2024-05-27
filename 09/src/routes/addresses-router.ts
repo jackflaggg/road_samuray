@@ -16,99 +16,65 @@ import {GetAddressesQueryModelId} from "../models/addressesModels/GetAddressesQu
 import {
     DeleteAddressesParamsModelId,
 } from "../models/addressesModels/DeleteAddressesQueryModeId";
+import {addressesRepository} from "../repositories/addresses-repository";
 
 export const addressesRouter: Router = Router({});
 
 addressesRouter.get('/', (req: RequestWithQuery<GetAddressesQueryModelValue>, res: Response<Address[]>) => {
     let {value : newValue} = req.query;
-    if (newValue){
-        res.send(dataAddresses.filter(a => a.value.includes(newValue)));
-    }
+    addressesRepository.giveAllAddresses(newValue?.toString())
     res.status(HTTP_STATUSES.OK_200).send(dataAddresses);
 });
 
 addressesRouter.get('/:id', (req: RequestWithParams<GetAddressesQueryModelId>, res: Response<Address | string>) => {
     const {id : idAddress} = req.params;
-    const address = dataAddresses.find(a => a.id === +idAddress);
+    let oneAddresses = addressesRepository.giveOneAddresses(idAddress);
 
-    if (!address) {
+    if (!oneAddresses) {
         res.status(HTTP_STATUSES.NOT_FOUND_404).send(ErrorsFound);
         return;
     }
 
-    res.status(HTTP_STATUSES.OK_200).send(address);
+    res.status(HTTP_STATUSES.OK_200).send(oneAddresses);
 });
 
 addressesRouter.post('/', (req: RequestWithBody<AddressesCreateInputModel>, res: Response<ErrorsType | Address>) => {
-    const errors: ErrorsType = {
-        errorsMessages: []
-    }
 
     let {value, id} = req.body;
 
-    if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
-        errors.errorsMessages.push({message: `Incorrect value, length = ${value.length.toString()}`, field: `value`});
-    }
-
-    if (!id || typeof id !== 'number') {
-        errors.errorsMessages.push({message: `Incorrect id`, field: `id`});
-    }
-
-    if (errors.errorsMessages.length){
+    if (addressesRepository.businesCheckError(value, id).errorsMessages.length){
         res
             .status(HTTP_STATUSES.BAD_REQUEST_400)
-            .send(errors);
+            .send(addressesRepository.businesCheckError(value, id));
         return;
     }
 
-    const newAdress: Address = {
-        value,
-        id
-    }
-
-    dataAddresses.push(newAdress);
-    return res.status(HTTP_STATUSES.CREATED_201).send(newAdress);
+    const entityAddresses: Address = addressesRepository.createEnitityAdresses(value, id);
+    return res.status(HTTP_STATUSES.CREATED_201).send(entityAddresses);
 
 });
 
 addressesRouter.put('/:id', (req: RequestWithParamsAndBody<GetAddressesQueryModelId, AddressesUpdateInputModel>, res: Response<ErrorsType | Address>) => {
-    const errors: ErrorsType = {
-        errorsMessages: []
-    }
+    let {value, id} = addressesRepository.createBodyEntityAddresses(req.body.value, +req.body.id);
 
-    let {value, id} = req.body;
-    let numberId = Number(id);
     if (Object.entries(req.body).length === 0){
-        //проверка на пустоту запроса!
         res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400);
         return;
     }
 
-    if (!value || typeof value !== 'string' || !value.trim() || value.length > 40) {
-        errors.errorsMessages.push({message: `Incorrect value, length = ${value.length.toString()}`, field: `value`});
-    }
-
-    // dataAddresses.findIndex((elem) => elem.id === +req.params.id) === -1 - проверка на req.params!
-
-    if (!numberId || typeof numberId !== 'number') {
-        errors.errorsMessages.push({message: `Incorrect id`, field: `id`});
-    }
-
-    if (errors.errorsMessages.length){
+    if (addressesRepository.businesCheckError(value, id).errorsMessages.length){
         res
             .status(HTTP_STATUSES.BAD_REQUEST_400)
-            .send(errors);
+            .send(addressesRepository.businesCheckError(value, id));
         return;
     }
 
-    let idParams = +req.params.id;
-    let entityAdresses = dataAddresses.find(a => a.id === idParams);
-    if (entityAdresses) {
-        Object.assign(entityAdresses, { value, id: numberId });
-        console.log(entityAdresses)
+    let addresses = addressesRepository.changeCharacterAddresses(req.params.id);
+    if (addresses) {
+        Object.assign(addresses, { value, id });
         return res
             .status(HTTP_STATUSES.NO_CONTENT_204)
-            .send(entityAdresses)
+            .send(addresses)
     } else {
         return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
     }
@@ -116,17 +82,17 @@ addressesRouter.put('/:id', (req: RequestWithParamsAndBody<GetAddressesQueryMode
 });
 
 addressesRouter.delete('/', (req: Request, res: Response) => {
-    dataAddresses.length = 0;
+    addressesRepository.deleteAllAddresses(dataAddresses);
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
 addressesRouter.delete('/:id', (req: RequestWithParams<DeleteAddressesParamsModelId>, res: Response) => {
     const { id } = req.params;
-    const index: number = dataProducts.findIndex(product => product.id === +id);
+    const index = addressesRepository.giveOneAddresses(+id);
+    console.log(index)
+    if (!index) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
 
-    if (index === -1) res.sendStatus(HTTP_STATUSES.NOT_FOUND_404);
-
-    dataAddresses.splice(index, 1);
+    //dataAddresses.splice(index[0], 1);
     return res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 });
 
